@@ -190,6 +190,7 @@ VALUES
     UPDATE dich_vu
     SET so_tang = 2
     WHERE ma_dich_vu = 5;
+    SELECT * FROM dich_vu;
 INSERT INTO dich_vu_di_kem (ma_dich_vu_di_kem, ten_dich_vu_di_kem, gia, don_vi, trang_thai)
 VALUES
     (1, 'Karaoke', 10000, 'giờ', 'tiện nghi, hiện tại'),
