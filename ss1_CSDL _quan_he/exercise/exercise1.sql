@@ -19,3 +19,5 @@ country varchar(100)
 INSERT INTO teacher(`name`, age, country)
 VALUES("Hải",25,"Việt Nam"),("Công",30,"Mỹ"),("Chánh",32,"Lào");
 SELECT * FROM teacher;
+RENAME TABLE class TO classroom;
+SELECT * FROM classroom;
