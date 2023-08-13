@@ -32,3 +32,10 @@ CREATE TABLE mark (
     Mark FLOAT DEFAULT 0 CHECK (Mark between 0 and 100 ),
     ExamTimes TINYINT DEFAULT 1
 );
+insert into class(ClassName,StartDate,Status)
+values ("A2",'2008-12-22',1),("B3",current_date(),0);
+SELECT * FROM class;
+insert into student(StudentName,Address,Phone,`Status`,ClassID)
+values ("Hung", "Ha noi", "0912113113", 1, 1),("Hoa", "Hai phong",null,1,1);
+SELECT * FROM student;
+select * FROM student where status = true;
