@@ -1,11 +1,11 @@
 CREATE DATABASE quan_ly_ban_hang;
 USE quan_ly_ban_hang;
-CREATE TABLE customer (
+CREATE TABLE customers (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(30),
     customer_age INT
 );
-CREATE TABLE `order` (
+CREATE TABLE orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
     FOREIGN KEY (customer_id)
@@ -13,12 +13,12 @@ CREATE TABLE `order` (
     order_date DATETIME,
     order_total_price DOUBLE
 );
-CREATE TABLE product (
+CREATE TABLE products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     product_name VARCHAR(30),
     product_price DOUBLE
 );
-CREATE TABLE order_detail (
+CREATE TABLE order_details (
     order_id INT,
     product_id INT,
     PRIMARY KEY (order_id , product_id),
