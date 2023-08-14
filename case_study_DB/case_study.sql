@@ -278,7 +278,8 @@ WHERE YEAR(h.ngay_lam_hop_dong) = 2020 AND h.ma_dich_vu NOT IN
 WHERE year(ngay_lam_hop_dong) = 2021)
 GROUP BY d.ma_dich_vu;
 -- 8.Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên.
-SELECT ho_ten FROM khach_hang;
+SELECT DISTINCT ho_ten FROM khach_hang;
+SELECT ho_ten FROM khach_hang GROUP BY ho_ten;
 -- 9.Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 SELECT MONTH(ngay_lam_hop_dong) AS thang, COUNT(ma_khach_hang) AS so_luong_khach
 FROM hop_dong
