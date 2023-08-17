@@ -28,7 +28,7 @@ SELECT product_code, product_name
 FROM products;
 DROP VIEW view_products;
 delimiter //
-create procedure getAllProducts()
+create procedure get_all_products()
 begin
 select *
 from products;
@@ -36,7 +36,7 @@ end //
 delimiter ;
 
 delimiter //
-create procedure addProduct(new_code varchar(20),
+create procedure add_product(new_code varchar(20),
 new_name varchar(50),
 new_price int,
 new_amount int,
@@ -47,10 +47,10 @@ insert into products(product_code, product_name, product_price, product_amount, 
 values (new_code, new_name, new_price, new_amount, new_description, new_status);
 end //
 delimiter ;
-call addProduct("s2", "samsungS", 20, 100, "nhiều tồn kho", "còn hàng");
+call add_product("s2", "samsungS", 20, 100, "nhiều tồn kho", "còn hàng");
 
 delimiter //
-create procedure editProduct(choose_id int, 
+create procedure edit_product(choose_id int, 
 new_code varchar(20),
 new_name varchar(50),
 new_price int,
@@ -68,12 +68,12 @@ product_status = new_status
 WHERE id = choose_id;
 end //
 delimiter ;
-call editProduct(6,'s3',"samsungS", 20, 100, "nhiều tồn kho", "còn hàng");
+call edit_product(6,'s3',"samsungS", 20, 100, "nhiều tồn kho", "còn hàng");
 
 delimiter //
-create procedure deleteProduct(choose_id int)
+create procedure delete_product(choose_id int)
 begin
 delete from products where id = choose_id;
 end //
 delimiter ;
-call deleteProduct(6);
+call delete_product(6);
