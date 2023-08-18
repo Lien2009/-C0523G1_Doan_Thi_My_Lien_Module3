@@ -264,7 +264,7 @@ SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 -- 6.Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ 
 -- chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).
-SELECT d.ma_dich_vu, d.ten_dich_vu, d.dien_tich, d.chi_phi_thue, l.ten_loai_dich_vu
+SELECT d.ma_dich_vu, d.ten_dich_vu, d.dien_tich, d.chi_phi_thue, l.ten_loai_dich_vu, h.ngay_lam_hop_dong
 FROM dich_vu d
 JOIN loai_dich_vu l ON d.ma_loai_dich_vu = l.ma_loai_dich_vu
 JOIN hop_dong h ON d.ma_dich_vu = h.ma_dich_vu
@@ -304,6 +304,7 @@ SELECT h.ma_hop_dong, h.ngay_lam_hop_dong, h.ngay_ket_thuc, h.tien_dat_coc, SUM(
 FROM hop_dong h
 LEFT JOIN hop_dong_chi_tiet c ON h.ma_hop_dong = c.ma_hop_dong
 GROUP BY h.ma_hop_dong;
+-- sd left join vì có HĐ ko sd dvđk bên HĐCT
 
 -- 11.Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng có ten_loai_khach là “Diamond” và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”.
 SELECT d.ma_dich_vu_di_kem, d.ten_dich_vu_di_kem
@@ -317,17 +318,17 @@ WHERE loai_khach.ten_loai_khach = "Diamond" AND khach_hang.dia_chi LIKE "%Vinh" 
 -- 12. Hiển thị thông tin ma_hop_dong, ho_ten (nhân viên), ho_ten (khách hàng), so_dien_thoai (khách hàng), ten_dich_vu, so_luong_dich_vu_di_kem 
 -- (được tính dựa trên việc sum so_luong ở dich_vu_di_kem), tien_dat_coc của tất cả các dịch vụ đã từng được khách hàng 
 -- đặt vào 3 tháng cuối năm 2020 nhưng chưa từng được khách hàng đặt vào 6 tháng đầu năm 2021.
-SELECT h.ma_hop_dong, n.ho_ten, k.ho_ten, k.so_dien_thoai, d.ten_dich_vu, SUM(hc.so_luong) AS so_luong_dich_vu_di_kem, h.tien_dat_coc
+SELECT h.ma_hop_dong, n.ho_ten AS ten_nhan_vien, k.ho_ten AS ten_khach_hang , k.so_dien_thoai, d.ten_dich_vu, ifnull(SUM(hc.so_luong),0) AS so_luong_dich_vu_di_kem, h.tien_dat_coc
 FROM hop_dong h
 JOIN nhan_vien n ON h.ma_nhan_vien = n.ma_nhan_vien
 JOIN khach_hang k ON h.ma_khach_hang = k.ma_khach_hang
 JOIN dich_vu d ON h.ma_dich_vu = d.ma_dich_vu
-JOIN hop_dong_chi_tiet hc ON h.ma_hop_dong = hc.ma_hop_dong
-WHERE MONTH(h.ngay_lam_hop_dong) > 9 AND YEAR(h.ngay_lam_hop_dong) = 2020 AND d.ten_dich_vu NOT IN
-(SELECT dich_vu.ten_dich_vu 
-FROM dich_vu
-WHERE MONTH(h.ngay_lam_hop_dong) < 7 AND YEAR(h.ngay_lam_hop_dong) = 2021)
-GROUP BY d.ten_dich_vu;
+LEFT JOIN hop_dong_chi_tiet hc ON h.ma_hop_dong = hc.ma_hop_dong
+WHERE MONTH(h.ngay_lam_hop_dong) > 9 AND YEAR(h.ngay_lam_hop_dong) = 2020 AND d.ma_dich_vu NOT IN
+(SELECT ma_dich_vu 
+FROM hop_dong
+WHERE MONTH(ngay_lam_hop_dong) < 7 AND YEAR(ngay_lam_hop_dong) = 2021)
+GROUP BY h.ma_hop_dong;
 
 -- 13. Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các Khách hàng đã đặt phòng. 
 -- (Lưu ý là có thể có nhiều dịch vụ có số lần sử dụng nhiều như nhau).
@@ -380,13 +381,14 @@ SET SQL_SAFE_UPDATES = 1;
 -- chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
 SET SQL_SAFE_UPDATES = 0;
 
-create view kh_update as
+-- create view kh_update as
 SELECT h.ma_khach_hang, d.chi_phi_thue + SUM(ifnull(hc.so_luong*dk.gia,0)) AS tong_tien
 FROM hop_dong h
 JOIN dich_vu d ON h.ma_dich_vu = d.ma_dich_vu
-JOIN hop_dong_chi_tiet hc ON h.ma_hop_dong = hc.ma_hop_dong
-JOIN dich_vu_di_kem dk ON hc.ma_dich_vu_di_kem = dk.ma_dich_vu_di_kem
-WHERE YEAR(h.ngay_lam_hop_dong) = 2021
+JOIN hop_dong_chi_tiet hc ON h.ma_hop_dong = hc.ma_hop_dong AND YEAR(h.ngay_lam_hop_dong) = 2021
+JOIN dich_vu_di_kem dk ON hc.ma_dich_vu_di_kem = dk.ma_dich_vu_di_kem 
+JOIN khach_hang k ON h.ma_khach_hang = k.ma_khach_hang
+JOIN loai_khach l ON k.ma_loai_khach = l.ma_loai_khach AND l.ten_loai_khach = 'Platinum'
 GROUP BY h.ma_khach_hang
 HAVING tong_tien > 10000000;
 
@@ -421,6 +423,8 @@ HAVING so_lan_su_dung > 10) AS sub);
 -- thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
 SELECT ma_nhan_vien, ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi
 FROM nhan_vien
+UNION ALL
+SELECT 'ma_khach_hang', 'ho_ten', 'email', 'so_dien_thoai', 'ngay_sinh', 'dia_chi'
 UNION ALL
 SELECT ma_khach_hang, ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi
 FROM khach_hang;
