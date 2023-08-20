@@ -1,3 +1,30 @@
+@font-face {
+    font-family: 'h1Font';
+    src: url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap") format('truetype');
+}
 h1 {
-    
+    font-size: 200%;
+    font-family: h1Font;
+    line-height: 0.2;
+}
+p{
+    font-size: 60%;
+    font-family: "Arial";
+}
+div {
+    font-size: 120%;
+    text-indent: 50px;
+}
+.bold {
+    font-weight: bold;
+}
+.blue{
+    color: cornflowerblue;
+}
+.dark_blue{
+    color: blue;
+}
+td{
+    padding: 10px;
+    text-align: justify;
 }
