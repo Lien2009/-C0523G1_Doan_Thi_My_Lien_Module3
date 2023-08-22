@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-.row:after {
+.row::after {
     content: "";
     clear: both;
     display: table;
@@ -11,7 +11,23 @@
 [class*="col-"] {
     float: left;
     padding: 15px;
+    width: 100%;
 }
+@media only screen and (min-width: 600px){
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px){
 .col-1 {width: 8.33%;}
 .col-2 {width: 16.66%;}
 .col-3 {width: 25%;}
@@ -24,18 +40,19 @@
 .col-10 {width: 83.33%;}
 .col-11 {width: 91.66%;}
 .col-12 {width: 100%;}
+}
 #header{
-    background-color: darkgray;
+    background-color: aqua;
     height: 30px;
     width: 100%;
 }
-#photo{
+#logo{
     height: 20px;
     width: 20px;
-    padding: 5px 10px;
+    margin: 5px;
 }
 #choose{
-    background-color: darkgray;
+    background-color: hotpink;
     height: 20px;
     width: 100%;
     margin-top: 2px;
@@ -48,7 +65,7 @@
     text-decoration: none;
 }
 #choose a:hover{
-    color: crimson;
+    color: deeppink;
 }
 .bold{
     font-size: 8px;
@@ -69,7 +86,7 @@
 }
 
 #footer p {
-    background-color: black;
+    background-color: cornsilk;
     border: 1px solid;
     height: 30px;
     text-align: center;
