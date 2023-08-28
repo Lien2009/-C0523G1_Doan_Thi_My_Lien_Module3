@@ -1,4 +1,4 @@
-package model;
+package service;
 
 public class Calculator {
     public static double calculate(double firstNum, double secondNum, char operator) {
@@ -14,10 +14,10 @@ public class Calculator {
                 result = firstNum * secondNum;
                 break;
             case '/':
-                try {
+                if (secondNum != 0){
                     result = firstNum / secondNum;
-                } catch (ArithmeticException e) {
-                    System.out.println("Không chia cho 0!");
+                } else {
+                    throw new ArithmeticException("Không chia cho 0!");
                 }
         }
         return result;

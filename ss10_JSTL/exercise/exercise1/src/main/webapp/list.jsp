@@ -36,9 +36,9 @@
     <tbody>
     <c:forEach var="c" items="${list}" varStatus="item">
         <tr>
-            <td><c:out value="${item.count}"/></td>
             <td><c:out value="${c.name}"/></td>
             <td><c:out value="${c.birth}"/></td>
+            <td><c:out value="${c.address}"/></td>
             <td><img src="${c.image}" alt="image" width="100px" height="100px"></td>
         </tr>
     </c:forEach>
