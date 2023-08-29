@@ -7,10 +7,17 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<a href="/product">Trở về</a>
+<h1>Tìm kiếm sản phẩm</h1>
+<form action="/product?action=search" method="post">
+    <label for="name">Tên sản phẩm</label>
+    <input type="text" id="name" name="name"><br>
+    <button type="submit">Tìm</button>
+    ${product}
+    ${notice}
+</body>
 </html>
