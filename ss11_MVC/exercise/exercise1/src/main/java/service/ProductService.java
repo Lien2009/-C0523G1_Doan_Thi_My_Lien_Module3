@@ -7,7 +7,7 @@ import repository.ProductRepository;
 import java.util.List;
 
 public class ProductService implements IProductService {
-    IProductRepository repository = new ProductRepository();
+   private IProductRepository repository = new ProductRepository();
 
     @Override
     public List<Product> showList() {
