@@ -12,4 +12,5 @@ public interface IUserService {
     void updateUser(User user);
     List<User> findUser(String country);
     List<User> sortList();
+    void addUserTransaction(User user, List<Integer> permissions);
 }

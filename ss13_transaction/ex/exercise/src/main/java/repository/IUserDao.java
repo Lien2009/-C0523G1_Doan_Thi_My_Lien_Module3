@@ -1,10 +1,10 @@
-package service;
+package repository;
 
 import model.User;
 
 import java.util.List;
 
-public interface IUserService {
+public interface IUserDao {
     void insertUser(User user);
     User selectUser(int id);
     List<User> selectAllUser();
@@ -12,4 +12,5 @@ public interface IUserService {
     void updateUser(User user);
     List<User> findUser(String country);
     List<User> sortList();
+    void addUserTransaction(User user, List<Integer> permissions);
 }

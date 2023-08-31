@@ -43,4 +43,9 @@ public class UserService implements IUserService {
     public List<User> sortList() {
         return repository.sortList();
     }
+
+    @Override
+    public void addUserTransaction(User user, List<Integer> permissions) {
+
+    }
 }
